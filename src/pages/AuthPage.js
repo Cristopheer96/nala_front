@@ -25,10 +25,12 @@ const AuthPage = () => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const loginMutation = useMutation(loginUser, {
-    onSuccess: (data) => {
-      localStorage.setItem('access-token', data['access-token']);
-      localStorage.setItem('client', data.client);
-      localStorage.setItem('uid', data.uid);
+    onSuccess: (result) => {
+      const { data, headers } = result;
+      localStorage.setItem('access-token', headers['access-token']);
+      localStorage.setItem('client', headers['client']);
+      localStorage.setItem('uid', headers['uid']);
+      localStorage.setItem('user_name', data.data.name);
       window.location.href = '/admin';
     },
     onError: (error) => {

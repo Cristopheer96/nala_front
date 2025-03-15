@@ -9,6 +9,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
     },
+    staleTime: 5 * 60 * 1000,
   },
 });
 

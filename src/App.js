@@ -1,19 +1,38 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
+import DashboardLayout from './layout/DashboardLayout';
+
+import HomePage from './pages/HomePage';
+import UsersPage from './pages/UsersPage';
+import ImportPage from './pages/vacations/ImportPage';
+import RequestPage from './pages/vacations/RequestPage';
 
 function App() {
+  const isLoggedIn = localStorage.getItem('access-token');
+
   return (
     <Router>
       <Routes>
-        {/* Ruta principal para login/registro */}
-        <Route path="/" element={<AuthPage />} />
+        {!isLoggedIn && (
+          <Route path="*" element={<AuthPage />} />
+        )}
+        {isLoggedIn && (
+          <>
+            <Route path="/admin" element={<DashboardLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path="usuarios" element={<UsersPage />} />
+              <Route path="vacaciones/importar" element={<ImportPage />} />
+              <Route path="vacaciones/solicitar" element={<RequestPage />} />
 
-        {/* Ruta protegida de ejemplo */}
+              {/* Ruta catch-all */}
+              <Route path="*" element={<HomePage />} />
+            </Route>
 
-        {/* Ruta por defecto (fallback) */}
-        <Route path="*" element={<AuthPage />} />
+            {/* Ruta fallback */}
+            <Route path="*" element={<Navigate to="/admin" replace />} />
+          </>
+        )}
       </Routes>
     </Router>
   );
