@@ -8,6 +8,7 @@ import UsersPage from './pages/UsersPage';
 import ImportPage from './pages/vacations/ImportPage';
 import RequestPage from './pages/vacations/RequestPage';
 import ManageVacationsPage from './pages/vacations/ManageVacationsPage';
+import LeaveAnalyticsPage from './pages/vacations/LeaveAnalyticsPage';
 
 function App() {
   const isLoggedIn = localStorage.getItem('access-token');
@@ -26,6 +27,7 @@ function App() {
               <Route path="vacaciones/importar" element={<ImportPage />} />
               <Route path="vacaciones/gestionar" element={<ManageVacationsPage />} />
               <Route path="vacaciones/solicitar" element={<RequestPage />} />
+              <Route path="vacaciones/nala_analytics" element={<LeaveAnalyticsPage />} />
 
               {/* Ruta catch-all */}
               <Route path="*" element={<HomePage />} />

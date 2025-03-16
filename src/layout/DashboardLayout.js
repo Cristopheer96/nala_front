@@ -208,6 +208,14 @@ function DashboardLayout({ children }) {
               >
                 <ListItemText primary="Gestionar Vacaciones" />
               </ListItem>
+              <ListItem
+                button
+                sx={{ pl: 4 }}
+                component={Link}
+                to="/admin/vacaciones/nala_analytics"
+              >
+                <ListItemText primary="Nala Analytics" />
+              </ListItem>
             </List>
           </Collapse>
         </List>
