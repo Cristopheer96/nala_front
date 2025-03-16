@@ -95,7 +95,6 @@ function LeaveAnalyticsPage() {
   // para ordenamiento por nombre o líder se asume ascendente.
   const computedOrder = computedOrderBy === 'total_days' ? sortDays : 'asc';
 
-  // Consulta a la API
   const { data, isLoading, isError, refetch } = useQuery(
     ['leaveAnalytics', page, leaderName, name, dateRange, sortDays],
     async () => {

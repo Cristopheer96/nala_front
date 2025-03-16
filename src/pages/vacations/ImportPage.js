@@ -33,7 +33,6 @@ function ImportPage() {
     setNotification((prev) => ({ ...prev, open: false }));
   };
 
-  // Definimos la mutación con React Query
   const importMutation = useMutation(
     (formData) =>
       api.post('/api/v1/leave_requests/import', formData, {
@@ -116,7 +115,7 @@ function ImportPage() {
     setSelectedFile(null);
     setPreviewData([]);
     setNotification({ open: false, message: '', severity: 'success' });
-    window.location.reload(); // Recuerda quitar esto en producción
+    window.location.reload(); // Recuerda  quer debo quitar esto en producción
   };
 
   return (

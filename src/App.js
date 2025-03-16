@@ -1,3 +1,4 @@
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
@@ -22,14 +23,15 @@ function App() {
         {isLoggedIn && (
           <>
             <Route path="/admin" element={<DashboardLayout />}>
-              <Route index element={<HomePage />} />
+              <Route index element={<Navigate to="inicio" replace />} />
+              <Route path="inicio" element={<HomePage />} />
               <Route path="usuarios" element={<UsersPage />} />
               <Route path="vacaciones/importar" element={<ImportPage />} />
               <Route path="vacaciones/gestionar" element={<ManageVacationsPage />} />
               <Route path="vacaciones/solicitar" element={<RequestPage />} />
               <Route path="vacaciones/nala_analytics" element={<LeaveAnalyticsPage />} />
 
-              {/* Ruta catch-all */}
+              {/* Ruta catch-all dentro de /admin */}
               <Route path="*" element={<HomePage />} />
             </Route>
 

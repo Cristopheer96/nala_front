@@ -1,5 +1,4 @@
-// src/layout/DashboardLayout.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -17,15 +16,13 @@ import {
   MenuItem,
   Collapse
 } from '@mui/material';
-import { Outlet, Link } from 'react-router-dom'; // Para navegar al hacer clic
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleIcon from '@mui/icons-material/People';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutIcon from '@mui/icons-material/Logout';
-
-// Íconos para expandir/colapsar
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
@@ -34,14 +31,20 @@ import logoNalaWhiteSvg from '../assets/nala-white.svg';
 
 const drawerWidth = 240;
 
-function DashboardLayout({ children }) {
+function DashboardLayout() {
   const userName = localStorage.getItem('user_name') || 'Usuario';
-
-  const [open, setOpen] = useState(true);  
+  const [open, setOpen] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [vacacionesOpen, setVacacionesOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname.startsWith('/admin/vacaciones')) {
+      setVacacionesOpen(true);
+    }
+  }, [location.pathname]);
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -84,7 +87,7 @@ function DashboardLayout({ children }) {
   const drawerVariant = isMobile ? 'temporary' : 'persistent';
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: '#f0f0f7', }}>
+    <Box sx={{ display: 'flex', backgroundColor: '#f0f0f7' }}>
       {/* Navbar */}
       <AppBar position="fixed" sx={appBarStyles}>
         <Toolbar>
@@ -158,7 +161,19 @@ function DashboardLayout({ children }) {
         {/* Opciones de menú */}
         <List>
           {/* 1. Inicio */}
-          <ListItem button component={Link} to="/admin/inicio">
+          <ListItem
+            button
+            component={NavLink}
+            to="/admin/inicio"
+            sx={{
+              '&.active': {
+                backgroundColor: '#d1c4e9',
+                '&:hover': {
+                  backgroundColor: '#b39ddb',
+                },
+              },
+            }}
+          >
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
@@ -166,7 +181,19 @@ function DashboardLayout({ children }) {
           </ListItem>
 
           {/* 2. Usuarios */}
-          <ListItem button component={Link} to="/admin/usuarios">
+          <ListItem
+            button
+            component={NavLink}
+            to="/admin/usuarios"
+            sx={{
+              '&.active': {
+                backgroundColor: '#d1c4e9',
+                '&:hover': {
+                  backgroundColor: '#b39ddb',
+                },
+              },
+            }}
+          >
             <ListItemIcon>
               <PeopleIcon />
             </ListItemIcon>
@@ -176,43 +203,78 @@ function DashboardLayout({ children }) {
           {/* 3. Gestión de Vacaciones (con subopciones) */}
           <ListItem button onClick={handleVacacionesClick}>
             <ListItemIcon>
-              {/* Puedes usar un ícono apropiado, por ejemplo un calendario */}
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="Gestión de Vacaciones" />
             {vacacionesOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
+
           <Collapse in={vacacionesOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem
                 button
-                sx={{ pl: 4 }}
-                component={Link}
+                component={NavLink}
                 to="/admin/vacaciones/importar"
+                sx={{
+                  '&.active': {
+                    backgroundColor: '#d1c4e9',
+                    '&:hover': {
+                      backgroundColor: '#b39ddb',
+                    },
+                  },
+                  pl: 4,
+                }}
               >
                 <ListItemText primary="Importar Información" />
               </ListItem>
+
               <ListItem
                 button
-                sx={{ pl: 4 }}
-                component={Link}
+                component={NavLink}
                 to="/admin/vacaciones/solicitar"
+                sx={{
+                  '&.active': {
+                    backgroundColor: '#d1c4e9',
+                    '&:hover': {
+                      backgroundColor: '#b39ddb',
+                    },
+                  },
+                  pl: 4,
+                }}
               >
                 <ListItemText primary="Solicitar Vacaciones" />
               </ListItem>
+
               <ListItem
                 button
-                sx={{ pl: 4 }}
-                component={Link}
+                component={NavLink}
                 to="/admin/vacaciones/gestionar"
+                sx={{
+                  '&.active': {
+                    backgroundColor: '#d1c4e9',
+                    '&:hover': {
+                      backgroundColor: '#b39ddb',
+                    },
+                  },
+                  pl: 4,
+                }}
               >
                 <ListItemText primary="Gestionar Vacaciones" />
               </ListItem>
+
               <ListItem
                 button
-                sx={{ pl: 4 }}
-                component={Link}
+                component={NavLink}
                 to="/admin/vacaciones/nala_analytics"
+                sx={{
+                  '&.active': {
+                    backgroundColor: '#d1c4e9',
+                    '&:hover': {
+                      backgroundColor: '#b39ddb',
+                    },
+                  },
+                  pl: 4,
+                }}
               >
                 <ListItemText primary="Nala Analytics" />
               </ListItem>
