@@ -1,4 +1,3 @@
-// src/pages/UsersPage.js
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -12,9 +11,11 @@ import {
   TableRow,
   Paper,
   Pagination,
+  Snackbar,
+  Alert
 } from '@mui/material';
 import styled from 'styled-components';
-import api from '../services/api'; 
+import api from '../services/api';
 
 const StyledTableContainer = styled(TableContainer)`
   margin-top: 16px;
@@ -29,7 +30,7 @@ const StyledBox = styled(Box)`
 const StyledTableCellHeader = styled(TableCell)`
   background-color: #2830ff;
   font-weight: bold;
-  color: white
+  color: white;
 `;
 
 const StyledTableRow = styled(TableRow)`
@@ -40,12 +41,30 @@ const StyledTableRow = styled(TableRow)`
 
 function UsersPage() {
   const [page, setPage] = useState(1);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: '',
+    severity: 'info',
+  });
 
   const { data, isLoading, isError } = useQuery(['users', page], async () => {
-    const response = await api.get('/api/v1/users', {
-      params: { page },
-    });
-    return response.data;
+    try {
+      const response = await api.get('/api/v1/users', { params: { page } });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem('access-token');
+        setNotification({
+          open: true,
+          message: 'La sesión ha expirado. Por favor inicia sesión nuevamente.',
+          severity: 'error',
+        });
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 3000);
+      }
+      throw error;
+    }
   });
 
   if (isLoading) {
@@ -71,7 +90,7 @@ function UsersPage() {
 
       <StyledTableContainer component={Paper}>
         <Table>
-          <TableHead >
+          <TableHead>
             <TableRow>
               <StyledTableCellHeader>Nombre</StyledTableCellHeader>
               <StyledTableCellHeader>Email</StyledTableCellHeader>
@@ -102,6 +121,17 @@ function UsersPage() {
           />
         </Box>
       )}
+
+      {/* Notificación de error */}
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={3000}
+        onClose={() => setNotification({ ...notification, open: false })}
+      >
+        <Alert severity={notification.severity} sx={{ width: '100%' }}>
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </StyledBox>
   );
 }

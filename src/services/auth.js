@@ -2,6 +2,10 @@
 import api from './api';
 
 export const loginUser = async (credentials) => {
+  if (credentials.session) {
+    credentials = { ...credentials, ...credentials.session };
+    delete credentials.session;
+  }
   const response = await api.post('/auth/sign_in', credentials);
   return {
     data: response.data,

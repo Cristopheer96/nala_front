@@ -1,13 +1,10 @@
-import fondoSvg from '../assets/background_login.svg';
-import ilustracionSvg from '../assets/people.svg';
-import logoNalaSvg from '../assets/nala-logo.svg';
+// src/pages/AuthPage.jsx
 import React, { useState } from 'react';
 import {
   Box,
   Grid,
   Typography,
   TextField,
-  Button,
   Link,
   Alert,
   Container,
@@ -15,10 +12,12 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { loginUser, registerUser } from '../services/auth';
 import CustomButton from '../components/CustomButton';
+import fondoSvg from '../assets/background_login.svg';
+import ilustracionSvg from '../assets/people.svg';
+import logoNalaSvg from '../assets/nala-logo.svg';
 
 const AuthPage = () => {
   const [toggleForm, setToggleForm] = useState('login');
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -85,8 +84,7 @@ const AuthPage = () => {
         <Typography variant="h5" gutterBottom>
           Descubre las herramientas que necesitas para llegar al siguiente nivel
         </Typography>
-        <img src={ilustracionSvg} alt="Ilustración" style={{ width: '100%'}} />
-
+        <img src={ilustracionSvg} alt="Ilustración" style={{ width: '100%' }} />
       </Grid>
 
       {/* Right Section */}
@@ -103,7 +101,15 @@ const AuthPage = () => {
         }}
       >
         <Container maxWidth="sm">
-          <img src={logoNalaSvg} alt="Ilustración" style={{ width: '100%', maxWidth: '100px', marginBottom: '36px' }} />
+          <img
+            src={logoNalaSvg}
+            alt="Ilustración"
+            style={{
+              width: '100%',
+              maxWidth: '100px',
+              marginBottom: '36px',
+            }}
+          />
           <Box
             sx={{
               display: 'flex',
@@ -125,12 +131,7 @@ const AuthPage = () => {
               </Alert>
             )}
 
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              noValidate
-              sx={{ width: '100%' }}
-            >
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ width: '100%' }}>
               {toggleForm === 'register' && (
                 <TextField
                   label="Nombre"

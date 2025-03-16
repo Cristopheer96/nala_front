@@ -13,7 +13,25 @@ api.interceptors.request.use((config) => {
     config.headers['client'] = client;
     config.headers['uid'] = uid;
   }
+  config.headers['Accept'] = 'application/json';
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => {
+    const newToken = response.headers['access-token'];
+    const newClient = response.headers['client'];
+    const newUid = response.headers['uid'];
+    if (newToken && newClient && newUid) {
+      localStorage.setItem('access-token', newToken);
+      localStorage.setItem('client', newClient);
+      localStorage.setItem('uid', newUid);
+    }
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default api;

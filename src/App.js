@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import UsersPage from './pages/UsersPage';
 import ImportPage from './pages/vacations/ImportPage';
 import RequestPage from './pages/vacations/RequestPage';
+import ManageVacationsPage from './pages/vacations/ManageVacationsPage';
 
 function App() {
   const isLoggedIn = localStorage.getItem('access-token');
@@ -23,6 +24,7 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="usuarios" element={<UsersPage />} />
               <Route path="vacaciones/importar" element={<ImportPage />} />
+              <Route path="vacaciones/gestionar" element={<ManageVacationsPage />} />
               <Route path="vacaciones/solicitar" element={<RequestPage />} />
 
               {/* Ruta catch-all */}
