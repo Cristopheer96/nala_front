@@ -78,7 +78,7 @@ function ManageVacationsPage() {
 
   const handleApprove = async (id) => {
     try {
-      await api.put(`/api/v1/leave_requests/${id}`, { status: 'aprobado' });
+      await api.put(`/api/v1/leave_requests/${id}`, { leave_request: { status: 'aprobado' } });
       setNotification({
         open: true,
         message: 'Solicitud aprobada exitosamente.',
@@ -100,7 +100,7 @@ function ManageVacationsPage() {
 
   const handleReject = async (id) => {
     try {
-      await api.put(`/api/v1/leave_requests/${id}`, { status: 'rechazado' });
+      await api.put(`/api/v1/leave_requests/${id}`, { leave_request: { status: 'rechazado' }});
       setNotification({
         open: true,
         message: 'Solicitud rechazada exitosamente.',
